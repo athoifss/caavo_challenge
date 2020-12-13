@@ -10,6 +10,7 @@ export default function App() {
       <Router>
         <Switch>
           <Route to="/" component={Container} />
+          {/* <Route to="/login" component={Login} /> */}
         </Switch>
       </Router>
     </div>

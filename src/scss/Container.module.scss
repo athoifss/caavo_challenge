@@ -1,4 +1,55 @@
 .wrapper {
   display: flex;
   flex-direction: column;
+  padding: 20px 40px;
+
+  .top {
+    display: flex;
+    padding: 25px 0;
+
+    .left {
+      width: 50%;
+      .uploaderWrapper {
+        width: 250px;
+        height: 200px;
+        border: 1px solid rgba(1, 1, 1, 0.4);
+        border-radius: 10px;
+      }
+      .removeText {
+        color: blue;
+        text-align: center;
+        padding: 10px 0;
+        width: 100%;
+        cursor: pointer;
+      }
+    }
+
+    .right {
+      width: 50%;
+    }
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .userWrapper {
+    width: 300px;
+    height: 400px;
+    margin: 20px 15px;
+    cursor: pointer;
+
+    .image {
+      img {
+        width: 300px;
+        height: 300px;
+      }
+    }
+
+    .name {
+      background-color: blue;
+      color: white;
+    }
+  }
 }

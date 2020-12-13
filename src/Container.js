@@ -1,35 +1,17 @@
-import React, { useState, useEffect } from "react";
-import style from "./Container.module.css";
-import { getRequest } from "./api";
+import React from "react";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import AddGroup from "./AddGroup";
 
 export default function Container() {
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    getRequest("he-public-data/users49b8675.json").then((resp) => {
-      console.log(resp.data);
-      setUsers(resp.data);
-    });
-  });
-
+  function renderAdd() {
+    return <AddGroup />;
+  }
   return (
-    <div className={style.wrapper}>
-      <div className="top">
-        <div className="left"></div>
-        <div className="right"></div>
-      </div>
-      <div className="bottom">
-        {users.map((user) => {
-          return (
-            <div key={user.id} className={style.userWrapper}>
-              <div className={style.top}>
-                <img src={user.Image} alt="user" />
-              </div>
-              <div className={style.bottom}>{user.Name}</div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact render={() => <Redirect to="/add" />} />
+        <Route path="/add" render={renderAdd} />
+      </Switch>
+    </Router>
   );
 }
