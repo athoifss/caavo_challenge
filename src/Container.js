@@ -6,7 +6,9 @@ import ViewGroups from "./ViewGroups.js";
 import UpdateGroup from "./UpdateGroup";
 
 export default function Container() {
-  const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState([
+    { name: "Default Group", desc: "Default description", img: null, users: [] },
+  ]);
 
   function renderAdd() {
     return <AddGroup />;
@@ -24,8 +26,14 @@ export default function Container() {
     setGroups(newGroups);
   }
 
+  function updateGroup(data, id) {
+    let newGroups = [...groups];
+    newGroups[id] = data;
+    setGroups(newGroups);
+  }
+
   return (
-    <Context.Provider value={{ groups, addGroup }}>
+    <Context.Provider value={{ groups, addGroup, updateGroup }}>
       <Router>
         <Switch>
           <Route path="/" exact render={() => <Redirect to="/groups" />} />

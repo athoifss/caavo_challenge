@@ -32,7 +32,7 @@ export default function Container() {
             return (
               <div onClick={handleClickGroup.bind(this, i)} className={style.groupWrapper} key={i}>
                 <div className={style.imageContainer}>
-                  <img src={URL.createObjectURL(group.img)} />
+                  {group.img ? <img src={URL.createObjectURL(group.img)} /> : null}
                 </div>
                 <div>{group.name}</div>
               </div>

@@ -50,15 +50,19 @@
 
 .container .wrapper .top .right form input {
   display: block;
-  width: 350px;
+  width: 300px;
   height: 40px;
   border: none;
   border-bottom: 1px solid rgba(1, 1, 1, 0.2) !important;
   padding-left: 10px;
 }
 
+.container .wrapper .top .right form input :focus {
+  outline: none;
+  box-shadow: 0px 0px 10px rgba(1, 1, 1, 0.1);
+}
+
 .container .wrapper .top .right button {
-  transition: all 0.5s;
   margin-left: auto;
   background-color: #ff6666;
   color: white;
@@ -112,9 +116,6 @@
     width: 100%;
     display: flex;
     justify-content: center;
-  }
-  .container .wrapper .top .left .uploaderWrapper {
-    margin-bottom: 20px;
   }
   .container .wrapper .top .right {
     flex-direction: column;
