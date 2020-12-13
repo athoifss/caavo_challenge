@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
-import style from "./Container.module.css";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
+import Context from "./util/Context";
+
 import ImageUploader from "./ImageUploader";
 import Header from "./Header";
-import { getRequest } from "./api";
-
 import Checkbox from "@material-ui/core/Checkbox";
+
+import style from "./AddGroup.module.css";
+import { getRequest } from "./util/api";
 
 export default function Container() {
   const [users, setUsers] = useState([]);
-  const [checkedUsers, setCheckedUsers] = useState([{}]);
+  const [checkedUsers, setCheckedUsers] = useState([]);
   const [groupLogo, setGroupLogo] = useState(null);
 
-  function handleChange(id) {
+  const context = useContext(Context);
+
+  function handleChangeCheckbox(id) {
     let newCheckedUsers = { ...checkedUsers };
     newCheckedUsers[id] = !newCheckedUsers[id];
     setCheckedUsers(newCheckedUsers);
@@ -26,13 +31,34 @@ export default function Container() {
     setGroupLogo(null);
   }
 
+  const history = useHistory();
+  function handleSubmitClick() {
+    let userIdsToAdd = [];
+    Object.entries(checkedUsers).map((item) => {
+      if (item[1]) {
+        userIdsToAdd.push(item[0]);
+      }
+    });
+
+    let usersToAdd = [];
+    users.forEach((item) => {
+      if (userIdsToAdd.indexOf(item.id) !== -1) {
+        usersToAdd.push(item);
+      }
+    });
+
+    let dataToAdd = { name: "Hello", users: usersToAdd };
+    context.addGroup(dataToAdd);
+    history.push("/groups");
+  }
+
   useEffect(() => {
     getRequest("he-public-data/users49b8675.json").then((resp) => {
-      let checkUsers = {};
+      let newCheckedUsers = {};
       resp.data.forEach((item) => {
-        checkUsers[item.id] = false;
+        newCheckedUsers[item.id] = false;
       });
-      setCheckedUsers(checkUsers);
+      setCheckedUsers(newCheckedUsers);
       setUsers(resp.data);
     });
   }, []);
@@ -61,20 +87,25 @@ export default function Container() {
       <div className={style.bottom}>
         {users.map((user) => {
           return (
-            <div key={user.id} className={style.userWrapper}>
+            <div
+              onClick={handleChangeCheckbox.bind(this, user.id)}
+              key={user.id}
+              className={style.userWrapper}
+            >
               <div className={style.image}>
                 <img src={user.Image} alt="user" />
               </div>
               <div className={style.name}>{user.name}</div>
               <Checkbox
                 checked={checkedUsers[user.id]}
-                onChange={handleChange.bind(this, user.id)}
+                onChange={handleChangeCheckbox.bind(this, user.id)}
                 inputProps={{ "aria-label": "primary checkbox" }}
               />
             </div>
           );
         })}
       </div>
+      <button onClick={handleSubmitClick}>Submit</button>
     </div>
   );
 }
