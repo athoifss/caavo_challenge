@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Context from "./util/Context";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 import ImageUploader from "./ImageUploader";
 import Header from "./Header";
@@ -14,8 +15,13 @@ export default function Container() {
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [groupLogo, setGroupLogo] = useState(null);
   const [formData, setFormData] = useState({});
+  const [isAlert, setIsAlert] = useState(false);
 
   const context = useContext(Context);
+
+  function handleAlert() {
+    setIsAlert((prev) => !prev);
+  }
 
   function handleChangeForm(e) {
     let currFormData = { ...formData };
@@ -39,6 +45,10 @@ export default function Container() {
 
   const history = useHistory();
   function handleSubmitClick() {
+    if (!groupLogo) {
+      handleAlert();
+      return;
+    }
     let userIdsToAdd = [];
     Object.entries(checkedUsers).map((item) => {
       if (item[1]) {
@@ -76,6 +86,22 @@ export default function Container() {
 
   return (
     <div className={style.container}>
+      {/* Alert for no image */}
+      {isAlert ? (
+        <SweetAlert
+          confirmBtnStyle={{
+            background: "#4f94e6",
+            color: "white",
+            width: "100px",
+            textDecoration: "none",
+            height: "40px",
+            lineHeight: "40px",
+            border: "none",
+          }}
+          title="Please select a group logo"
+          onConfirm={handleAlert}
+        />
+      ) : null}
       <div className={style.wrapper}>
         <Header title="Create User" />
         <div className={style.top}>
