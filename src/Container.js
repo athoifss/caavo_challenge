@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-d
 import Context from "./util/Context";
 import AddGroup from "./AddGroup";
 import ViewGroups from "./ViewGroups.js";
+import UpdateGroup from "./UpdateGroup";
 
 export default function Container() {
   const [groups, setGroups] = useState([]);
@@ -12,6 +13,9 @@ export default function Container() {
   }
   function renderViewGroups() {
     return <ViewGroups />;
+  }
+  function renderUpdateGroup() {
+    return <UpdateGroup />;
   }
 
   function addGroup(data) {
@@ -24,8 +28,9 @@ export default function Container() {
     <Context.Provider value={{ groups, addGroup }}>
       <Router>
         <Switch>
-          <Route path="/" exact render={() => <Redirect to="/groups/add" />} />
-          <Route path="/groups/add" render={renderAdd} />
+          <Route path="/" exact render={() => <Redirect to="/groups" />} />
+          <Route path="/group/add" exact render={renderAdd} />
+          <Route path="/group/:id" exact render={renderUpdateGroup} />
           <Route path="/groups" render={renderViewGroups} />
         </Switch>
       </Router>

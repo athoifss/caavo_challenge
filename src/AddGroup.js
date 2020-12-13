@@ -13,14 +13,20 @@ export default function Container() {
   const [users, setUsers] = useState([]);
   const [checkedUsers, setCheckedUsers] = useState([]);
   const [groupLogo, setGroupLogo] = useState(null);
+  const [formData, setFormData] = useState({});
 
   const context = useContext(Context);
+
+  function handleChangeForm(e) {
+    let currFormData = { ...formData };
+    currFormData[e.target.name] = e.target.value;
+    setFormData(currFormData);
+  }
 
   function handleChangeCheckbox(id) {
     let newCheckedUsers = { ...checkedUsers };
     newCheckedUsers[id] = !newCheckedUsers[id];
     setCheckedUsers(newCheckedUsers);
-    console.log(newCheckedUsers);
   }
 
   function handleChangeGroupLogo(image) {
@@ -47,7 +53,12 @@ export default function Container() {
       }
     });
 
-    let dataToAdd = { name: "Hello", users: usersToAdd };
+    let dataToAdd = {
+      name: formData.groupName,
+      img: groupLogo,
+      desc: formData.groupDesc,
+      users: usersToAdd,
+    };
     context.addGroup(dataToAdd);
     history.push("/groups");
   }
@@ -64,48 +75,50 @@ export default function Container() {
   }, []);
 
   return (
-    <div className={style.wrapper}>
-      <Header title="Create User" />
-      <div className={style.top}>
-        <div className={style.left}>
-          <div className={style.uploaderWrapper}>
-            <ImageUploader image={groupLogo} handleChange={handleChangeGroupLogo} />
-            {groupLogo ? (
-              <div onClick={handleRemoveImage} className={style.removeText}>
-                Remove Image
-              </div>
-            ) : null}
+    <div className={style.container}>
+      <div className={style.wrapper}>
+        <Header title="Create User" />
+        <div className={style.top}>
+          <div className={style.left}>
+            <div className={style.uploaderWrapper}>
+              <ImageUploader image={groupLogo} handleChange={handleChangeGroupLogo} />
+              {groupLogo ? (
+                <div onClick={handleRemoveImage} className={style.removeText}>
+                  Remove Image
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div className={style.right}>
+            <form onChange={handleChangeForm}>
+              <input type="text" name="groupName" placeholder="Group Name" />
+              <input type="text" name="groupDesc" placeholder="Group Description" />
+            </form>
+            <button onClick={handleSubmitClick}>Submit</button>
           </div>
         </div>
-        <div className={style.right}>
-          <form>
-            <input type="text" name="groupName" placeholder="Group Name" />
-            <input type="text" name="groupDesc" placeholder="Group Description" />
-          </form>
+        <div className={style.bottom}>
+          {users.map((user) => {
+            return (
+              <div
+                onClick={handleChangeCheckbox.bind(this, user.id)}
+                key={user.id}
+                className={style.userWrapper}
+              >
+                <Checkbox
+                  checked={checkedUsers[user.id]}
+                  onChange={handleChangeCheckbox.bind(this, user.id)}
+                  inputProps={{ "aria-label": "primary checkbox" }}
+                />
+                <div className={style.image}>
+                  <img src={user.Image} alt="user" />
+                </div>
+                <div className={style.name}>{user.name}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div className={style.bottom}>
-        {users.map((user) => {
-          return (
-            <div
-              onClick={handleChangeCheckbox.bind(this, user.id)}
-              key={user.id}
-              className={style.userWrapper}
-            >
-              <div className={style.image}>
-                <img src={user.Image} alt="user" />
-              </div>
-              <div className={style.name}>{user.name}</div>
-              <Checkbox
-                checked={checkedUsers[user.id]}
-                onChange={handleChangeCheckbox.bind(this, user.id)}
-                inputProps={{ "aria-label": "primary checkbox" }}
-              />
-            </div>
-          );
-        })}
-      </div>
-      <button onClick={handleSubmitClick}>Submit</button>
     </div>
   );
 }

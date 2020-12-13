@@ -1,26 +1,40 @@
-.wrapper {
+.container {
   display: flex;
   flex-direction: column;
-  padding: 20px 40px;
+  align-items: center;
+  padding: 50px 30px;
 }
 
-.wrapper .top {
+.container .wrapper {
   display: flex;
-  padding: 25px 0;
+  flex-direction: column;
+  width: 70%;
+  padding: 30px 20px;
+  box-shadow: 0px 0px 20px rgba(1, 1, 1, 0.1);
 }
 
-.wrapper .top .left {
-  width: 50%;
+.container .wrapper .top {
+  display: flex;
+  padding-top: 20px;
+  padding-bottom: 50px;
 }
 
-.wrapper .top .left .uploaderWrapper {
-  width: 250px;
-  height: 200px;
-  border: 1px solid rgba(1, 1, 1, 0.4);
-  border-radius: 10px;
+.container .wrapper .top .left {
+  width: 20%;
 }
 
-.wrapper .top .left .removeText {
+.container .wrapper .top .left .uploaderWrapper {
+  width: 150px;
+  height: 150px;
+  border: 1px solid rgba(1, 1, 1, 0.2);
+  border-radius: 50%;
+}
+
+.container .wrapper .top .left .uploaderWrapper img {
+  border-radius: 50%;
+}
+
+.container .wrapper .top .left .removeText {
   color: blue;
   text-align: center;
   padding: 10px 0;
@@ -28,28 +42,60 @@
   cursor: pointer;
 }
 
-.wrapper .top .right {
-  width: 50%;
+.container .wrapper .top .right {
+  width: 80%;
+  display: flex;
+  align-items: center;
 }
 
-.wrapper .bottom {
+.container .wrapper .top .right form input {
+  display: block;
+  width: 300px;
+  height: 40px;
+  border: none;
+  border-bottom: 1px solid rgba(1, 1, 1, 0.2) !important;
+  padding-left: 10px;
+}
+
+.container .wrapper .top .right form input :focus {
+  outline: none;
+  box-shadow: 0px 0px 10px rgba(1, 1, 1, 0.1);
+}
+
+.container .wrapper .top .right button {
+  margin-left: auto;
+  background-color: #ff6666;
+  color: white;
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+}
+
+.container .wrapper .bottom {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
-.wrapper .userWrapper {
+.container .wrapper .userWrapper {
   width: 300px;
-  height: 400px;
-  margin: 20px 15px;
+  height: 50px;
+  margin: 10px 15px;
   cursor: pointer;
+  display: flex;
 }
 
-.wrapper .userWrapper .image img {
-  width: 300px;
-  height: 300px;
+.container .wrapper .userWrapper .image img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
-.wrapper .userWrapper .name {
-  background-color: blue;
-  color: white;
+.container .wrapper .userWrapper .name {
+  color: black;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 }

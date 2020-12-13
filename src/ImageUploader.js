@@ -17,12 +17,13 @@ const ImageUploader = (props) => {
       style={{
         width: "100%",
         height: "100%",
+        borderRadius: "50%",
       }}
     >
       {image ? (
         <>
           <img
-            style={{ borderRadius: "10px", width: "100%", height: "100%" }}
+            style={{ borderRadius: "50%", width: "100%", height: "100%" }}
             src={URL.createObjectURL(image)}
           />
         </>
